@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/WoWSummary/static/css/main.272e6296.chunk.css",
-    "main.js": "/WoWSummary/static/js/main.6ea31b74.chunk.js",
-    "main.js.map": "/WoWSummary/static/js/main.6ea31b74.chunk.js.map",
+    "main.js": "/WoWSummary/static/js/main.f5c95d0f.chunk.js",
+    "main.js.map": "/WoWSummary/static/js/main.f5c95d0f.chunk.js.map",
     "runtime-main.js": "/WoWSummary/static/js/runtime-main.4a0c73b4.js",
     "runtime-main.js.map": "/WoWSummary/static/js/runtime-main.4a0c73b4.js.map",
     "static/js/2.01f931b8.chunk.js": "/WoWSummary/static/js/2.01f931b8.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.4a0c73b4.js",
     "static/js/2.01f931b8.chunk.js",
     "static/css/main.272e6296.chunk.css",
-    "static/js/main.6ea31b74.chunk.js"
+    "static/js/main.f5c95d0f.chunk.js"
   ]
 }
