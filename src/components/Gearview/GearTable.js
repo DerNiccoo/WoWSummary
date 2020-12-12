@@ -3,7 +3,9 @@ import { useTable, useSortBy } from "react-table";
 import Table from "react-bootstrap/Table";
 
 function resolve_rarity(type) {
-  if (type === 'RARE') {
+  if (type === 'UNCOMMON') {
+    return 'q2';
+  } else if (type === 'RARE') {
     return 'q3';
   } else if (type === 'EPIC') {
     return 'q4';
@@ -17,50 +19,23 @@ function prepareData(members) {
   let index = 0
 
   members.forEach(member => {
-    let gears = [];
-    let gs = 0;
-    let offhand = false;
-
-    member.equipped_items.forEach(item => {
-      let gear = {
-        id: item.item.id,
-        slot: item.slot.type,
-        level: item.level.value,
-        quality: item.quality.type,
-      }
-
-      if (gear.slot === 'OFF_HAND') {
-        offhand = true;
-      }
-
-      gs += gear.level;
-      gears.push(gear);
-
-    });
-
-    if (offhand) {
-      gs = gs / 16;
-    } else {
-      gs = gs / 15;
-    }
-
     let entry = {
       index: index,
-      name: <span>{member.character.name}</span>,
-      gear: gears,
-      gs: gs.toFixed(2)
+      name: <span>{member.name}</span>,
+      gs: member.gear_score
     };
 
-    gears.forEach(gear => {
+    member.items.forEach(gear => {
       let rarity = resolve_rarity(gear.quality)
-      let href = "https://de.wowhead.com/item=" + gear.id + '&ilvl=' + gear.level;
-      entry[gear.slot] = <a href={href} className={rarity}></a>
+      let href = "https://de.wowhead.com/item=" + gear.item_id + '&ilvl=' + gear.level;
+      let label = "(" + gear.level + ") " + gear.name;
+      entry[gear.slot] = <a href={href} className={rarity}>{label}</a>
     });
 
     index++;
     result.push(entry);
   });
-  console.log(result)
+
   return result;
 }
 

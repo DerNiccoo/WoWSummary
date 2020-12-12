@@ -23,7 +23,6 @@ class Guildview extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result);
           this.setState({
             isLoaded: true,
             guild: result
@@ -50,7 +49,6 @@ class Guildview extends React.Component {
     } else if (!isLoaded) {
       content = <div>Loading...</div>;
     } else {
-      console.log(guild);
       content = <GuildTable guildMembers={guild} />;
     }
 
