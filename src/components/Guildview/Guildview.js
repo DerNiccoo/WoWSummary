@@ -19,7 +19,7 @@ class Guildview extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild/blackrock/shockwave/roster")
+    fetch("https://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild/blackrock/shockwave/roster")
       .then(res => res.json())
       .then(
         (result) => {

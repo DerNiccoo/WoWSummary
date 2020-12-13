@@ -20,7 +20,7 @@ class Gearview extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild/blackrock/shockwave/gear")
+    fetch("https://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild/blackrock/shockwave/gear")
       .then(res => res.json())
       .then(
         (result) => {

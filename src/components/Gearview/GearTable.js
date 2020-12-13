@@ -18,6 +18,7 @@ function prepareData(members) {
   let result = [];
   let index = 0
 
+  console.log(members);
   members.forEach(member => {
     let entry = {
       index: index,
@@ -28,6 +29,9 @@ function prepareData(members) {
     member.items.forEach(gear => {
       let rarity = resolve_rarity(gear.quality)
       let href = "https://de.wowhead.com/item=" + gear.item_id + '&ilvl=' + gear.level;
+      if (gear.legy_spell != null) {
+        href = "https://de.wowhead.com/spell=" + gear.legy_spell;
+      }
       let label = "(" + gear.level + ") " + gear.name;
       entry[gear.slot] = <a href={href} className={rarity}>{label}</a>
     });

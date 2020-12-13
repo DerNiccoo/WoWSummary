@@ -16,7 +16,7 @@ function prepareData(members) {
       index: index,
       name: <span className={member.playable_class}>{member.name}</span>,
       level: member.level,
-      char_id: member.player_id,
+      gs: member.gear_score,
       race: member.playable_race,
       rank: member.rank
     };
@@ -47,8 +47,8 @@ const GuildTable = (props) => {
         accessor: "level",
       },
       {
-        Header: "char_id",
-        accessor: "char_id",
+        Header: "GS",
+        accessor: "gs",
       },
       {
         Header: "Index",
@@ -71,9 +71,13 @@ const GuildTable = (props) => {
       initialState: {
         sortBy: [
           {
-            id: 'rank',
-            desc: false
-          }
+            id: 'level',
+            desc: true
+          },
+          {
+            id: 'gs',
+            desc: true
+          },
         ]
       }
     },
