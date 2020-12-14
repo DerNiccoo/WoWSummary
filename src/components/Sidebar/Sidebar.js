@@ -77,66 +77,8 @@ export default function Sidebar(props) {
           </Link>
         </li>
 
-        <li className="nav-item">
-          <Link to="/buy" className="nav-link">
-            <svg
-              aria-hidden="true"
-              focusable="false"
-              data-prefix="fad"
-              data-icon="alien-monster"
-              role="img"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 576 512"
-              className="svg-inline--fa fa-alien-monster fa-w-18 fa-9x"
-            >
-              <g className="fa-group">
-                <path
-                  fill="currentColor"
-                  d="M552 64H159.21l52.36 256h293.15a24 24 0 0 0 23.4-18.68l47.27-208a24 24 0 0 0-18.08-28.72A23.69 23.69 0 0 0 552 64zM444.42 196.48l-67.83 72a12.27 12.27 0 0 1-17.18 0l-67.83-72c-7.65-7.55-2.23-20.48 8.59-20.48h43.54v-52a12.07 12.07 0 0 1 12.14-12h24.29a12.07 12.07 0 0 1 12.15 12v52h43.54c10.82 0 16.24 12.93 8.59 20.48z"
-                  className="fa-secondary"
-                ></path>
-                <path
-                  fill="currentColor"
-                  d="M504.42 405.6l5.52-24.28a24 24 0 0 0-23.4-29.32H218.12L150 19.19A24 24 0 0 0 126.53 0H24A24 24 0 0 0 0 24v16a24 24 0 0 0 24 24h69.88l70.25 343.43a56 56 0 1 0 67.05 8.57h209.64a56 56 0 1 0 63.6-10.4zm-145-137.12a12.27 12.27 0 0 0 17.18 0l67.83-72c7.65-7.55 2.23-20.48-8.59-20.48h-43.55v-52a12.07 12.07 0 0 0-12.15-12h-24.29a12.07 12.07 0 0 0-12.14 12v52h-43.54c-10.82 0-16.24 12.93-8.59 20.48z"
-                  className="fa-primary"
-                ></path>
-              </g>
-            </svg>
-            <span className="link-text">Weekly</span>
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link to="/analysis" className="nav-link">
-            <svg
-              aria-hidden="true"
-              focusable="false"
-              data-prefix="fad"
-              data-icon="space-station-moon-alt"
-              role="img"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-              className="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x"
-            >
-              <g className="fa-group">
-                <path
-                  fill="currentColor"
-                  d="M461.29 288c9.54 0 17.39 8.39 16.06 17.84C460.53 424.92 356.57 516 231.93 511.87 107.91 507.8 4.2 404.1.13 280.07c-4.09-124.64 87-228.6 206-245.42 9.48-1.33 17.87 6.51 17.87 16.06V288z"
-                  className="fa-secondary"
-                ></path>
-                <path
-                  fill="currentColor"
-                  d="M512 223.2c.62 9.11-7 16.8-16.19 16.8H272V16.24C272 7.1 279.68-.59 288.8 0 408.26 8.28 503.72 103.74 512 223.2z"
-                  className="fa-primary"
-                ></path>
-              </g>
-            </svg>
-            <span className="link-text">Collection</span>
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link to="/calculator" className="nav-link">
+        <li className="nav-item" onClick={(event) => props.onClickRefresh(event)}>
+          <Link to="/" className="nav-link">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -150,17 +92,17 @@ export default function Sidebar(props) {
               <g className="fa-group">
                 <path
                   fill="currentColor"
-                  d="M249.46 272H12a12 12 0 0 0-12 12v28.37a12 12 0 0 0 12 12h231.08a12 12 0 0 0 11.71-9.37l6.37-28.37a12.16 12.16 0 0 0 .29-2.62A12 12 0 0 0 249.46 272zm19-96H12a12 12 0 0 0-12 12v29.76a12 12 0 0 0 12 12h250a12 12 0 0 0 11.67-9.44l6.51-29.75a12.26 12.26 0 0 0 .28-2.57 12 12 0 0 0-12-12z"
+                  d="M8 454.06V320a24 24 0 0 1 24-24h134.06c21.38 0 32.09 25.85 17 41l-41.75 41.75A166.82 166.82 0 0 0 256.16 424c77.41-.07 144.31-53.14 162.78-126.85a12 12 0 0 1 11.65-9.15h57.31a12 12 0 0 1 11.81 14.18C478.07 417.08 377.19 504 256 504a247.14 247.14 0 0 1-171.31-68.69L49 471c-15.15 15.15-41 4.44-41-16.94z"
                   className="fa-secondary"
                 ></path>
                 <path
                   fill="currentColor"
-                  d="M310.74 472.22a249.39 249.39 0 0 1-61.1 7.79c-287.91 0-290.74-448 0-448a290.17 290.17 0 0 1 52.68 5.21 12 12 0 0 1 9.53 14c-.06.29-.12.58-.2.87l-12 44.37a12 12 0 0 1-14 8.62c-234.25-48.79-225.48 354 10.63 299.3a12 12 0 0 1 14.36 9c0 .11.05.22.07.33l8.81 44.49a12 12 0 0 1-8.78 14.02z"
+                  d="M12.3 209.82C33.93 94.92 134.81 8 256 8a247.14 247.14 0 0 1 171.31 68.69L463 41c15.12-15.12 41-4.41 41 17v134a24 24 0 0 1-24 24H345.94c-21.38 0-32.09-25.85-17-41l41.75-41.75A166.8 166.8 0 0 0 255.85 88c-77.46.07-144.33 53.18-162.79 126.85A12 12 0 0 1 81.41 224H24.1a12 12 0 0 1-11.8-14.18z"
                   className="fa-primary"
                 ></path>
               </g>
             </svg>
-            <span className="link-text">PvP</span>
+            <span className="link-text">Aktualisieren</span>
           </Link>
         </li>
 

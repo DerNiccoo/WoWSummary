@@ -11,6 +11,7 @@ function prepareData(props) {
   let result = [];
   let index = 0
 
+  console.log(props);
   props.guildMembers.forEach(member => {
     let entry = {
       id: member.player_id,
@@ -18,7 +19,11 @@ function prepareData(props) {
       name: <span className={member.playable_class}>{member.name}</span>,
       level: member.level,
       race: member.playable_race,
-      rank: member.rank
+      rank: member.rank,
+      covenant_level: member.renown_level,
+      dungeon_rio: member.mythic_rio,
+      covenant_name: member.covenant,
+      collectable_av: member.achievement_points,
     };
     index++;
     result.push(entry);
@@ -53,6 +58,7 @@ function prepareData(props) {
     for (let i = 0; i < result.length; i++) {
       if (result[i].id === dungeon.char_id) {
         result[i].dungeon_currently = dungeon.best;
+        result[i].dungeon_best_mythic = dungeon.total;
       }
     }
   });
@@ -156,16 +162,11 @@ const GuildTable = (props) => {
       ]
     },
     {
-      Header: "Mythic +",
+      Header: "Höchsten Mythic +",
       columns: [
         {
-          Header: "Bester",
+          Header: "Total",
           accessor: "dungeon_best_mythic",
-          width: 30
-        },
-        {
-          Header: "Gesamt",
-          accessor: "dungeon_overall",
           width: 30
         },
         {
@@ -176,6 +177,21 @@ const GuildTable = (props) => {
         {
           Header: "RIO",
           accessor: "dungeon_rio",
+          width: 30
+        },
+      ]
+    },
+    {
+      Header: "Paktsanktum",
+      columns: [
+        {
+          Header: "Name",
+          accessor: "covenant_name",
+          width: 30
+        },
+        {
+          Header: "Level",
+          accessor: "covenant_level",
           width: 30
         },
       ]
