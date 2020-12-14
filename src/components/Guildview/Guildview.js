@@ -14,7 +14,10 @@ class Guildview extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      guild: []
+      guild: [],
+      gear: [],
+      dungeon: [],
+      mount: []
     };
   }
 
@@ -28,20 +31,45 @@ class Guildview extends React.Component {
             guild: result
           });
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
         (error) => {
           this.setState({
             isLoaded: true,
             error
           });
         }
-      )
+      );
+    // Just as an example, we try to see if this actually works as i intended, later outsource to own method
+    fetch("https://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild/blackrock/shockwave/gear/overview")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            gear: result
+          });
+        }
+      );
+    fetch("https://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild/blackrock/shockwave/dungeons/overview")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            dungeon: result
+          });
+        }
+      );
+    fetch("https://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild/blackrock/shockwave/collection/mounts/overview")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            mount: result
+          });
+        }
+      );
   }
 
   render() {
-    const { error, isLoaded, guild } = this.state;
+    const { error, isLoaded, guild, gear, dungeon, mount } = this.state;
 
     let content;
     if (error) {
@@ -49,7 +77,7 @@ class Guildview extends React.Component {
     } else if (!isLoaded) {
       content = <div>Loading...</div>;
     } else {
-      content = <GuildTable guildMembers={guild} />;
+      content = <GuildTable guildMembers={guild} gear={gear} dungeon={dungeon} mount={mount} />;
     }
 
 

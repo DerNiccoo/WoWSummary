@@ -18,7 +18,6 @@ function prepareData(members) {
   let result = [];
   let index = 0
 
-  console.log(members);
   members.forEach(member => {
     let entry = {
       index: index,
