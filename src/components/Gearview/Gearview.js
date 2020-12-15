@@ -1,10 +1,7 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
-
-import { mock_gear, mock_guild } from '../Guildview/Mockdata.js'
 
 import GearTable from './GearTable.js'
 

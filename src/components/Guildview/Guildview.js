@@ -1,10 +1,7 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
-
-import { mock_gear, mock_guild } from './Mockdata.js'
 
 import GuildTable from './GuildTable.js'
 
@@ -14,6 +11,8 @@ class Guildview extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
+      last_updated: 0,
+      show_last_updated: "",
       guild: [],
       gear: [],
       dungeon: [],
@@ -21,7 +20,7 @@ class Guildview extends React.Component {
     };
   }
 
-  componentDidMount() {
+  updateData() {
     fetch("https://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild/blackrock/shockwave/roster")
       .then(res => res.json())
       .then(
@@ -66,6 +65,73 @@ class Guildview extends React.Component {
           });
         }
       );
+
+  }
+
+  getLastUpdated() {
+    if (this.state.last_updated === 0) {
+      return;
+    }
+    fetch("https://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild/blackrock/shockwave")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          if (result.last_modified > this.state.last_updated) {
+            this.setState({
+              last_updated: result.last_modified
+            });
+            this.updateData();
+          }
+        }
+      );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+    clearInterval(this.timerLastUpdated);
+  }
+
+  componentDidMount() {
+    fetch("https://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild/blackrock/shockwave")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            last_updated: result.last_modified
+          });
+        }
+      );
+
+    this.updateData();
+
+    this.timerID = setInterval(
+      () => this.getLastUpdated(),
+      60000
+    );
+    this.timerLastUpdated = setInterval(
+      () => this.calculateLastRefreshTime(),
+      1000
+    );
+  }
+
+  calculateLastRefreshTime() {
+    const currentSec = new Date().getTime() / 1000;
+    const last_update = this.state.last_updated;
+
+    let diff = currentSec - last_update;
+    let result = '';
+    if (diff < 60) {
+      result = diff.toFixed() + ' Sekunden';
+    } else {
+      diff = diff / 60;
+      result = 'einer Minute';
+      if (diff > 2) {
+        result = Math.floor(diff) + ' Minuten';
+      }
+    }
+    this.setState({
+      show_last_updated: result,
+    });
   }
 
   render() {
@@ -86,6 +152,11 @@ class Guildview extends React.Component {
         <Row>
           <Col>
             <h2>Schmockwave</h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <a>Zuletzt aktualisiert vor {this.state.show_last_updated}</a>
           </Col>
         </Row>
         <hr />

@@ -1,17 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useTable, useSortBy } from "react-table";
 import Table from "react-bootstrap/Table";
-
-function class_id_to_name(class_id) {
-  let classes = ['warrior', 'paladin', 'hunter', 'rogue', 'prist', 'death-knight', 'shamane', 'mage', 'warlock', 'monk', 'druid', 'demon-hunter']
-  return classes[--class_id];
-}
 
 function prepareData(props) {
   let result = [];
   let index = 0
 
-  console.log(props);
   props.guildMembers.forEach(member => {
     let entry = {
       id: member.player_id,
@@ -40,10 +34,17 @@ function prepareData(props) {
           result[i].eq_legy = <a href={href} className='q5'>{gear.legy_level}</a>
         }
 
+        let primary = false;
         gear.enchantments.forEach(enchant => {
+          if ('ench_' + enchant.slot in result[i] && primary) {
+            return;
+          }
           if (enchant.enchant === null) {
             result[i]['ench_' + enchant.slot] = <a style={{ color: "red" }}>Nein</a>
           } else {
+            if (enchant.slot === 'PRIMARY') {
+              primary = true;
+            }
             result[i]['ench_' + enchant.slot] = <a style={{ color: "green" }}>Ja</a>
           }
         });
@@ -77,7 +78,7 @@ function prepareData(props) {
 
 const GuildTable = (props) => {
   const [data, setData] = useState(
-    React.useMemo(() => JSON.parse(localStorage.getItem("GuildTable")) || prepareData(props), [])
+    React.useMemo(() => JSON.parse(localStorage.getItem("GuildTable")) || prepareData(props), [props])
   );
 
   let new_data = prepareData(props);

@@ -43,15 +43,6 @@ function App() {
     setChange(++old);
   }
 
-  function onClickRefresh(event) {
-    if (window.confirm("Aktualisieren der Daten, dieser Vorgang dauert länger!!!")) {
-      fetch("https://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild")
-        .then(
-          window.location.href = "/"
-        )
-    }
-  }
-
   return (
 
     <Router basename={process.env.PUBLIC_URL}>
@@ -76,7 +67,7 @@ function App() {
             <Route path="*">404</Route>
           </Switch>
         </main>
-        <Sidebar onClick={changeTheme} key={change} onClickRefresh={onClickRefresh} />
+        <Sidebar onClick={changeTheme} key={change} />
       </div>
     </Router>
   );

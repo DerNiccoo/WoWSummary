@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useTable, useSortBy } from "react-table";
 import Table from "react-bootstrap/Table";
 
@@ -45,7 +45,7 @@ function prepareData(members) {
 
 const GearTable = (props) => {
   const [data, setData] = useState(
-    React.useMemo(() => JSON.parse(localStorage.getItem("GearTable")) || prepareData(props.data), [])
+    React.useMemo(() => JSON.parse(localStorage.getItem("GearTable")) || prepareData(props.data), [props.data])
   );
 
   const columns = React.useMemo(
