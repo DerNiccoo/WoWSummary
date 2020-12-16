@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/WoWSummary/static/css/main.272e6296.chunk.css",
-    "main.js": "/WoWSummary/static/js/main.43b1e2b1.chunk.js",
-    "main.js.map": "/WoWSummary/static/js/main.43b1e2b1.chunk.js.map",
+    "main.js": "/WoWSummary/static/js/main.b678fd98.chunk.js",
+    "main.js.map": "/WoWSummary/static/js/main.b678fd98.chunk.js.map",
     "runtime-main.js": "/WoWSummary/static/js/runtime-main.4a0c73b4.js",
     "runtime-main.js.map": "/WoWSummary/static/js/runtime-main.4a0c73b4.js.map",
-    "static/js/2.9004baad.chunk.js": "/WoWSummary/static/js/2.9004baad.chunk.js",
-    "static/js/2.9004baad.chunk.js.map": "/WoWSummary/static/js/2.9004baad.chunk.js.map",
+    "static/js/2.3ac47f28.chunk.js": "/WoWSummary/static/js/2.3ac47f28.chunk.js",
+    "static/js/2.3ac47f28.chunk.js.map": "/WoWSummary/static/js/2.3ac47f28.chunk.js.map",
     "static/js/3.72a4ae89.chunk.js": "/WoWSummary/static/js/3.72a4ae89.chunk.js",
     "static/js/3.72a4ae89.chunk.js.map": "/WoWSummary/static/js/3.72a4ae89.chunk.js.map",
     "index.html": "/WoWSummary/index.html",
     "static/css/main.272e6296.chunk.css.map": "/WoWSummary/static/css/main.272e6296.chunk.css.map",
-    "static/js/2.9004baad.chunk.js.LICENSE.txt": "/WoWSummary/static/js/2.9004baad.chunk.js.LICENSE.txt"
+    "static/js/2.3ac47f28.chunk.js.LICENSE.txt": "/WoWSummary/static/js/2.3ac47f28.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.4a0c73b4.js",
-    "static/js/2.9004baad.chunk.js",
+    "static/js/2.3ac47f28.chunk.js",
     "static/css/main.272e6296.chunk.css",
-    "static/js/main.43b1e2b1.chunk.js"
+    "static/js/main.b678fd98.chunk.js"
   ]
 }
