@@ -78,13 +78,22 @@ function prepareData(props) {
 
 const GuildTable = (props) => {
   const [data, setData] = useState(
-    React.useMemo(() => JSON.parse(localStorage.getItem("GuildTable")) || prepareData(props), [props])
+    React.useMemo(() => JSON.parse(localStorage.getItem("GuildTable")) || prepareData(props), [])
   );
 
-  let new_data = prepareData(props);
-  if (Object.keys(data[0]).length < Object.keys(new_data[0]).length) {
-    setData(new_data);
+  const [oldProps, setOldProps] = useState(0);
+
+  if (oldProps === 0) {
+    setOldProps(props);
   }
+
+  Object.keys(props).some(propKey => {
+    if (props[propKey] !== oldProps[propKey]) {
+      setOldProps(props);
+      setData(prepareData(props));
+      return true;
+    }
+  });
 
   const columns = React.useMemo(
     () => [{

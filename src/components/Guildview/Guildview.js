@@ -42,6 +42,7 @@ class Guildview extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
+          console.log({ new_gear: result })
           this.setState({
             gear: result
           });
@@ -108,10 +109,13 @@ class Guildview extends React.Component {
       () => this.getLastUpdated(),
       60000
     );
+
+
     this.timerLastUpdated = setInterval(
       () => this.calculateLastRefreshTime(),
       1000
     );
+
   }
 
   calculateLastRefreshTime() {
