@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTable, useSortBy } from "react-table";
 import Table from "react-bootstrap/Table";
 
+
 function prepareData(props) {
   let result = [];
   let index = 0
@@ -16,9 +17,14 @@ function prepareData(props) {
       rank: member.rank,
       covenant_level: member.renown_level,
       dungeon_rio: member.mythic_rio,
-      covenant_name: member.covenant,
+      covenant_name: <span className={member.covenant.toLowerCase().replace(/\s/g, '')}>{member.covenant}</span>,
       collectable_av: member.achievement_points,
+      raid_progress: member.raid_summary,
     };
+
+    if (member.normal_bosses !== null) {
+      entry.raid_kills = member.normal_bosses + '/' + member.heroic_bosses + '/' + member.mythic_bosses;
+    }
     index++;
     result.push(entry);
   });
@@ -40,16 +46,20 @@ function prepareData(props) {
             return;
           }
           if (enchant.enchant === null) {
-            result[i]['ench_' + enchant.slot] = <a style={{ color: "red" }}>Nein</a>
+            result[i]['ench_' + enchant.slot] = <span style={{ color: "red" }}>Nein</span>
           } else {
             if (enchant.slot === 'PRIMARY') {
               primary = true;
             }
-            result[i]['ench_' + enchant.slot] = <a style={{ color: "green" }}>Ja</a>
+            result[i]['ench_' + enchant.slot] = <span style={{ color: "green" }}>Ja</span>
           }
         });
 
-        result[i].eq_sockets = gear.socket_curr + '/' + gear.socket_total;
+        if (gear.socket_curr === gear.socket_total) {
+          result[i].eq_sockets = <span style={{ color: "green" }}>{gear.socket_curr + '/' + gear.socket_total}</span>
+        } else {
+          result[i].eq_sockets = <span style={{ color: "red" }}>{gear.socket_curr + '/' + gear.socket_total}</span>
+        }
         break;
       }
     }
@@ -73,6 +83,25 @@ function prepareData(props) {
     }
   });
 
+  props.pvp.forEach(pvp => {
+    for (let i = 0; i < result.length; i++) {
+      if (result[i].id === pvp.char_id) {
+        pvp.pvp.forEach(pvp_col => {
+          let pvp_type = '';
+          if (pvp_col.pvp_type === 'ARENA_2v2') {
+            pvp_type = '2v2';
+          } else if (pvp_col.pvp_type === 'ARENA_3v3') {
+            pvp_type = '3v3';
+          }
+          result[i]['pvp_rating_' + pvp_type] = pvp_col.rating;
+          result[i]['pvp_games_' + pvp_type] = pvp_col.season_won + '/' + (pvp_col.season_won + pvp_col.season_lost);
+        });
+      }
+    }
+
+  });
+
+  //color_ranking(result, ['dungeon_rio', 'covenant_level', 'collectable_av', 'eq_gs', 'pvp_rating_2v2', 'pvp_rating_3v3'])
   return result;
 }
 
@@ -94,6 +123,46 @@ const GuildTable = (props) => {
       return true;
     }
   });
+
+  function convert_cell_type(cell_value) {
+    let result = cell_value;
+    if (typeof cell_value === 'string' || cell_value instanceof String) {
+      result = parseInt(cell_value.split('/')[0]);
+    }
+    return result;
+  }
+
+  function get_color_for_cell(cell_value, field) {
+    if (cell_value === undefined)
+      return 'rank_noob';
+
+    let player_value = convert_cell_type(cell_value);
+
+    let values = []
+    data.forEach(player => {
+      values.push(convert_cell_type(player[field]))
+    });
+
+    const sorted_values = values.sort(function (a, b) {
+      return convert_cell_type(b) - convert_cell_type(a);
+    });
+
+    let place = sorted_values.findIndex(element => element === player_value);
+    if (place === 0) {
+      return "rank_legendary";
+    }
+    else if (place > 0 && place <= 5) {
+      return "rank_epic";
+    }
+    else if (place > 5 && place <= 10) {
+      return "rank_rare";
+    }
+    else if (place > 10 && place <= 20) {
+      return "rank_uncommon";
+    }
+    return "rank_noob";
+
+  }
 
   const columns = React.useMemo(
     () => [{
@@ -117,7 +186,14 @@ const GuildTable = (props) => {
         {
           Header: "GS",
           accessor: "eq_gs",
-          width: 30
+          Cell: (props) => {
+            let rank_color = get_color_for_cell(props.cell.value, props.column.id)
+            return (
+              <span className={rank_color}>
+                {String(props.cell.value || '')}
+              </span>
+            );
+          },
         },
         {
           Header: "Legy",
@@ -177,17 +253,38 @@ const GuildTable = (props) => {
         {
           Header: "Total",
           accessor: "dungeon_best_mythic",
-          width: 30
+          Cell: (props) => {
+            let rank_color = get_color_for_cell(props.cell.value, props.column.id)
+            return (
+              <span className={rank_color}>
+                {String(props.cell.value || '')}
+              </span>
+            );
+          },
         },
         {
           Header: "Weekly",
           accessor: "dungeon_currently",
-          width: 30
+          Cell: (props) => {
+            let rank_color = get_color_for_cell(props.cell.value, props.column.id)
+            return (
+              <span className={rank_color}>
+                {String(props.cell.value || '')}
+              </span>
+            );
+          },
         },
         {
           Header: "RIO",
           accessor: "dungeon_rio",
-          width: 30
+          Cell: (props) => {
+            let rank_color = get_color_for_cell(props.cell.value, props.column.id)
+            return (
+              <span className={rank_color}>
+                {String(props.cell.value || '')}
+              </span>
+            );
+          },
         },
       ]
     },
@@ -202,7 +299,14 @@ const GuildTable = (props) => {
         {
           Header: "Level",
           accessor: "covenant_level",
-          width: 30
+          Cell: (props) => {
+            let rank_color = get_color_for_cell(props.cell.value, props.column.id)
+            return (
+              <span className={rank_color}>
+                {String(props.cell.value || '')}
+              </span>
+            );
+          },
         },
       ]
     },
@@ -212,11 +316,6 @@ const GuildTable = (props) => {
         {
           Header: "Fortschritt",
           accessor: "raid_progress",
-          width: 30
-        },
-        {
-          Header: "Clears",
-          accessor: "raid_clears",
           width: 30
         },
         {
@@ -232,17 +331,26 @@ const GuildTable = (props) => {
         {
           Header: "Erfolge",
           accessor: "collectable_av",
-          width: 30
-        },
-        {
-          Header: "Titel",
-          accessor: "collectable_title",
-          width: 30
+          Cell: (props) => {
+            let rank_color = get_color_for_cell(props.cell.value, props.column.id)
+            return (
+              <span className={rank_color}>
+                {String(props.cell.value || '')}
+              </span>
+            );
+          },
         },
         {
           Header: "Mounts",
           accessor: "collectable_mounts",
-          width: 30
+          Cell: (props) => {
+            let rank_color = get_color_for_cell(props.cell.value, props.column.id)
+            return (
+              <span className={rank_color}>
+                {String(props.cell.value || '')}
+              </span>
+            );
+          },
         },
         {
           Header: "Pets",
@@ -255,29 +363,52 @@ const GuildTable = (props) => {
       Header: "Spieler gegen Spieler",
       columns: [
         {
-          Header: "Ehre Stufe",
-          accessor: "pvp_honor",
-          width: 30
-        },
-        {
           Header: "Wertung (2v2)",
           accessor: "pvp_rating_2v2",
-          width: 30
+          Cell: (props) => {
+            let rank_color = get_color_for_cell(props.cell.value, props.column.id)
+            return (
+              <span className={rank_color}>
+                {String(props.cell.value || '')}
+              </span>
+            );
+          },
         },
         {
           Header: "Wertung (3v3)",
           accessor: "pvp_rating_3v3",
-          width: 30
+          Cell: (props) => {
+            let rank_color = get_color_for_cell(props.cell.value, props.column.id)
+            return (
+              <span className={rank_color}>
+                {String(props.cell.value || '')}
+              </span>
+            );
+          },
         },
         {
           Header: "Arenas (2v2)",
           accessor: "pvp_games_2v2",
-          width: 30
+          Cell: (props) => {
+            let rank_color = get_color_for_cell(props.cell.value, props.column.id)
+            return (
+              <span className={rank_color}>
+                {String(props.cell.value || '')}
+              </span>
+            );
+          },
         },
         {
           Header: "Arenas (3v3)",
           accessor: "pvp_games_3v3",
-          width: 30
+          Cell: (props) => {
+            let rank_color = get_color_for_cell(props.cell.value, props.column.id)
+            return (
+              <span className={rank_color}>
+                {String(props.cell.value || '')}
+              </span>
+            );
+          },
         },
       ]
     },

@@ -4,6 +4,7 @@ import './App.css';
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Guildview from "./components/Guildview/Guildview.js";
 import Gearview from "./components/Gearview/Gearview.js";
+import Newsfeed from "./components/Newsfeed/Newsfeed.js";
 import Sidebar from "./components/Sidebar/Sidebar.js";
 
 function activateTheme() {
@@ -52,8 +53,8 @@ function App() {
             <Route path="/gearview">
               <Gearview />
             </Route>
-            <Route path="/buy">
-              <Gearview />
+            <Route path="/newsfeed">
+              <Newsfeed />
             </Route>
             <Route path="/analysis">
               <Guildview />

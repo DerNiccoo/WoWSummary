@@ -28,6 +28,14 @@
   --color-shaman: #0070DD;
   --color-warlock: #8788EE;
   --color-warrior: #C69B6D;
+  --color-night-fae: #a330c9;
+  --color-kyrian: #68ccef;
+  --color-necrolord: #40bf40;
+  --color-venthyr: #ff4040;  
+  --color-legendary: #ff8000;  
+  --color-epic: #a335ee;  
+  --color-rare: #0070dd;  
+  --color-uncommon: #1eff00;  
 }
 
 html body {
@@ -181,6 +189,38 @@ main {
 
 .warrior {
   color: var(--color-warrior);
+}
+
+.kyrian {
+  color: var(--color-kyrian);
+}
+
+.venthyr {
+  color: var(--color-venthyr);
+}
+
+.necrolord {
+  color: var(--color-necrolord);
+}
+
+.nightfae {
+  color: var(--color-night-fae);
+}
+
+.rank_legendary {
+  color: var(--color-legendary);
+}
+
+.rank_epic {
+  color: var(--color-epic);
+}
+
+.rank_rare {
+  color: var(--color-rare);
+}
+
+.rank_uncommon {
+  color: var(--color-uncommon);
 }
 
 /* Not Large screens */

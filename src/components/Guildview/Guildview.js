@@ -4,6 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import GuildTable from './GuildTable.js'
+import Pageheader from '../Pageheader/Pageheader.js'
 
 class Guildview extends React.Component {
   constructor(props) {
@@ -12,11 +13,11 @@ class Guildview extends React.Component {
       error: null,
       isLoaded: false,
       last_updated: 0,
-      show_last_updated: "",
       guild: [],
       gear: [],
       dungeon: [],
-      mount: []
+      mount: [],
+      pvp: [],
     };
   }
 
@@ -42,7 +43,6 @@ class Guildview extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
-          console.log({ new_gear: result })
           this.setState({
             gear: result
           });
@@ -66,7 +66,15 @@ class Guildview extends React.Component {
           });
         }
       );
-
+    fetch("https://b7ab414a-ca5b-41a8-ba5a-adc219611e67.ka.bw-cloud-instance.org/guild/blackrock/shockwave/pvp/overview")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            pvp: result
+          });
+        }
+      );
   }
 
   getLastUpdated() {
@@ -79,7 +87,12 @@ class Guildview extends React.Component {
         (result) => {
           if (result.last_modified > this.state.last_updated) {
             this.setState({
-              last_updated: result.last_modified
+              last_updated: result.last_modified,
+              guild: [],
+              gear: [],
+              dungeon: [],
+              mount: [],
+              pvp: [],
             });
             this.updateData();
           }
@@ -89,7 +102,6 @@ class Guildview extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.timerID);
-    clearInterval(this.timerLastUpdated);
   }
 
   componentDidMount() {
@@ -105,65 +117,28 @@ class Guildview extends React.Component {
 
     this.updateData();
 
-    this.timerID = setInterval(
+    this.timerLastUpdated = setInterval(
       () => this.getLastUpdated(),
       60000
     );
 
-
-    this.timerLastUpdated = setInterval(
-      () => this.calculateLastRefreshTime(),
-      1000
-    );
-
-  }
-
-  calculateLastRefreshTime() {
-    const currentSec = new Date().getTime() / 1000;
-    const last_update = this.state.last_updated;
-
-    let diff = currentSec - last_update;
-    let result = '';
-    if (diff < 60) {
-      result = diff.toFixed() + ' Sekunden';
-    } else {
-      diff = diff / 60;
-      result = 'einer Minute';
-      if (diff > 2) {
-        result = Math.floor(diff) + ' Minuten';
-      }
-    }
-    this.setState({
-      show_last_updated: result,
-    });
   }
 
   render() {
-    const { error, isLoaded, guild, gear, dungeon, mount } = this.state;
+    const { error, isLoaded, guild, gear, dungeon, mount, pvp } = this.state;
 
     let content;
     if (error) {
       content = <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      content = <div>Loading...</div>;
+    } else if (guild.length > 0 && gear.length > 0 && dungeon.length > 0 && mount.length > 0 && pvp.length > 0) {
+      content = <GuildTable guildMembers={guild} gear={gear} dungeon={dungeon} mount={mount} pvp={pvp} />;
     } else {
-      content = <GuildTable guildMembers={guild} gear={gear} dungeon={dungeon} mount={mount} />;
+      content = <div>Loading...</div>;
     }
-
 
     return (
       <div>
-        <Row>
-          <Col>
-            <h2>Schmockwave</h2>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <a>Zuletzt aktualisiert vor {this.state.show_last_updated}</a>
-          </Col>
-        </Row>
-        <hr />
+        <Pageheader last_updated={this.state.last_updated} />
         <Row>
           <Col>
             {content}
